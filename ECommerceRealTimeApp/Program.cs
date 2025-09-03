@@ -1,4 +1,5 @@
 
+using ECommerceRealTimeApp.CustomeMiddlewares;
 using ECommerceRealTimeApp.Services;
 using Microsoft.EntityFrameworkCore;
 
@@ -11,6 +12,9 @@ namespace ECommerceRealTimeApp
             var builder = WebApplication.CreateBuilder(args);
 
             // Add services to the container.
+
+            builder.Logging.ClearProviders();
+            builder.Logging.AddConsole();
 
             builder.Services.AddControllers()
                 .AddJsonOptions(options =>
@@ -34,6 +38,8 @@ namespace ECommerceRealTimeApp
                 app.UseSwagger();
                 app.UseSwaggerUI();
             }
+
+            app.UseMiddleware<ExceptionHandlingMiddleware>();
 
             app.UseAuthorization();
 
