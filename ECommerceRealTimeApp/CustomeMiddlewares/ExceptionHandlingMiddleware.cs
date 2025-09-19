@@ -16,7 +16,7 @@ namespace ECommerceRealTimeApp.CustomeMiddlewares
             _logger = logger;
         }
 
-        public async Task TaskAsync(HttpContext context)
+        public async Task Invoke(HttpContext context)
         {
             try
             {

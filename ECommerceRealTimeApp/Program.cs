@@ -29,6 +29,9 @@ namespace ECommerceRealTimeApp
             builder.Services.AddSwaggerGen();
 
             builder.Services.AddScoped<CustomerService>();
+            builder.Services.AddScoped<AddressService>();
+            builder.Services.AddScoped<CategoryService>();
+            builder.Services.AddScoped<ProductService>();
 
             var app = builder.Build();
 

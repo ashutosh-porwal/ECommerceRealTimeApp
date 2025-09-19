@@ -235,5 +235,41 @@ namespace ECommerceRealTimeApp.Services
                     $"An unexpected error occurred while processing your request, Error: {ex.Message}");
             }
         }
+
+        public async Task<ApiResponse<List<CustomerResponseDTO>>> GetCustomers(int pageSize, int pageNumber)
+        {
+            try
+            {
+                if (pageSize <= 0 || pageNumber <= 0)
+                {
+                    return new ApiResponse<List<CustomerResponseDTO>>(400, "Page size and page number must be greater than zero.");
+                }
+                var customers = await _context.Customers
+                    .AsNoTracking()
+                    .OrderBy(c => c.Id)
+                    .Where(c => c.IsActive) // Only get active customers
+                    .Skip((pageNumber - 1) * pageSize)
+                    .Take(pageSize)
+                    .ToListAsync();
+
+                var customerDTOs = customers.Select(customer => new CustomerResponseDTO
+                {
+                    Id = customer.Id,
+                    FirstName = customer.FirstName,
+                    LastName = customer.LastName,
+                    Email = customer.Email,
+                    PhoneNumber = customer.PhoneNumber,
+                    DateOfBirth = customer.DateOfBirth
+                }).ToList();
+
+                return new ApiResponse<List<CustomerResponseDTO>>(200, customerDTOs);
+            }
+            catch (Exception ex)
+            {
+                // Log the exception
+                return new ApiResponse<List<CustomerResponseDTO>>(500,
+                    $"An unexpected error occurred while processing your request, Error: {ex.Message}");
+            }
+        }
     }
 }
