@@ -32,6 +32,7 @@ namespace ECommerceRealTimeApp
             builder.Services.AddScoped<AddressService>();
             builder.Services.AddScoped<CategoryService>();
             builder.Services.AddScoped<ProductService>();
+            builder.Services.AddScoped<ShoppingCartService>();
 
             var app = builder.Build();
 
